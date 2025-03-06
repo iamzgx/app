@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>APP 下载页</title>
+    <!-- 二维码生成库 -->
+    <!-- 修改版本号和文件名 -->
+<script>
+  const VERSION = "v1.0";
+  const FILENAME = "diancan.apk";
+</script>
+    <style>
+        body { text-align: center; font-family: Arial; }
+        .download-btn {
+            padding: 15px 30px;
+            background: #2ecc71;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 20px;
+        }
+        #qrcode { margin: 30px auto; }
+    </style>
+</head>
+<body>
+    <h1>我的应用 v<span id="version">1.0</span></h1>
+    
+    <!-- 下载按钮 -->
+    <a class="download-btn" id="downloadLink" download>
+        点击下载 APK
+    </a>
+
+    <!-- 二维码容器 -->
+    <div id="qrcode"></div>
+
+    <script>
+        // ========== 配置区域 ==========
+        const VERSION = "v1.0";  // 每次更新只需修改这里
+        const FILENAME = "diancan.apk";
+        // =============================
+
+        // 动态生成链接
+        const downloadUrl = `https://github.com/iamzgx/app/releases/download/${VERSION}/${FILENAME}`;
+        
+        // 设置下载按钮
+        document.getElementById("downloadLink").href = downloadUrl;
+        document.getElementById("version").textContent = VERSION;
+
+        // 生成二维码
+        new QRCode(document.getElementById("qrcode"), {
+            text: downloadUrl,
+            width: 200,
+            height: 200,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+        });
+    </script>
+</body>
+</html>
