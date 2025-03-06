@@ -3,12 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>APP 下载页</title>
-    <!-- 二维码生成库 -->
-    <!-- 修改版本号和文件名 -->
-<script>
-  const VERSION = "v1.0";
-  const FILENAME = "diancan.apk";
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <style>
         body { text-align: center; font-family: Arial; }
         .download-btn {
@@ -21,27 +16,27 @@
             margin: 20px;
         }
         #qrcode { margin: 30px auto; }
+        #iosTip { display: none; color: red; }
     </style>
 </head>
 <body>
     <h1>我的应用 v<span id="version">1.0</span></h1>
+    <div id="iosTip">iOS 用户请用 Safari 打开此页面下载！</div>
     
-    <!-- 下载按钮 -->
     <a class="download-btn" id="downloadLink" download>
         点击下载 APK
     </a>
 
-    <!-- 二维码容器 -->
     <div id="qrcode"></div>
 
     <script>
         // ========== 配置区域 ==========
-        const VERSION = "v1.0";  // 每次更新只需修改这里
+        const VERSION = "v1.0";
         const FILENAME = "diancan.apk";
         // =============================
 
-        // 动态生成链接
-        const downloadUrl = `https://github.com/iamzgx/app/releases/download/${VERSION}/${FILENAME}`;
+        // 使用 CDN 加速链接
+        const downloadUrl = `https://cdn.jsdelivr.net/gh/iamzgx/app@${VERSION}/${FILENAME}`;
         
         // 设置下载按钮
         document.getElementById("downloadLink").href = downloadUrl;
@@ -55,6 +50,19 @@
             colorDark : "#000000",
             colorLight : "#ffffff",
             correctLevel : QRCode.CorrectLevel.H
+        });
+
+        // iOS 检测
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+            document.getElementById("iosTip").style.display = "block";
+        }
+
+        // 下载失败兜底
+        document.getElementById("downloadLink").addEventListener("click", (e) => {
+            if (!downloadUrl) {
+                e.preventDefault();
+                alert("下载链接错误，请联系管理员");
+            }
         });
     </script>
 </body>
